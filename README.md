@@ -1,1 +1,2 @@
-# project-ais
+# Project AIS
+## Automated Investment Strategies
