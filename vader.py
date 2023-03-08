@@ -1,7 +1,6 @@
 #importing libraries for the task
 import nltk
 import pandas as pd
-import re
 
 #downloading vader lexicon
 nltk.download("vader_lexicon")
@@ -19,11 +18,13 @@ def lowercase (text):
 
 #Removing URLs
 def remove_url (text):
+    import re
     text_clean = re.sub(r'http\S+', '', text)
     return text_clean
 
 #Removing usernames
 def remove_un (text):
+    import re
     text_mod = re.sub(r'@[^\s]+', '', text)
     return text_mod
 
