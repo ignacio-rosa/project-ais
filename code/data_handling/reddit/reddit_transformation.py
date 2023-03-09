@@ -5,12 +5,13 @@ import os
 
 try:
     pwd = os.path.abspath(__file__)
-    path_data = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(pwd))),
+    path_data = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(pwd)))),
                              'raw_data')
     path_clean = os.path.join(path_data, 'reddit_clean')
 except:
     pwd = os.getcwd()
-    path_data = os.path.join(pwd, 'raw_data')
+    path_data = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(pwd)))),
+                             'raw_data')
     path_clean = os.path.join(path_data, 'reddit_clean')
 
 
@@ -21,8 +22,8 @@ def week_of_month(tgtdate):
         if d.day - d.weekday() > 0:
             startdate = d
             break
-    # now we canuse the modulo 7 appraoch
-    return (tgtdate - startdate).days //7 + 1
+    # now we canuse the modulo 7 approach
+    return (tgtdate - startdate).days // 7 + 1
 
 df = pd.read_csv(f'{path_clean}/subreddit_clean_filtered.csv',
                  sep=',', escapechar='\\')
@@ -40,7 +41,7 @@ df['woy'] = df['created'].apply(lambda x: x.isocalendar()[1])
 l_cols_order = ['year', 'month', 'woy', 'ticker', 'subreddit', 'id', 'created',
           'title', 'text', 'dups']
 df = df[l_cols_order]
-df.to_csv(f'{path_clean}/reddit_submissions_filter_clean.csv', index=False,
+df.to_csv(f'{path_clean}/reddit_new_submissions_filter_clean.csv', index=False,
           sep=',', escapechar='\\')
 
 """
