@@ -41,12 +41,13 @@ def preprocess(df, iqr=(25, 75)):
     ss_ticker = df['ticker']
     del df['ticker']
 
-    l_feat_pctSentiment = ['ttl_sentiment', 'neg_pct', 'neu_pct', 'pos_pct']
+    l_feat_pctSentiment = ['ttl_sentiment', 'polarity_neg_pct',
+                           'polarity_neu_pct', 'polarity_pos_pct']
     def ttl_pct_sentiment(df):
-        df['ttl_sentiment'] = df[['neg', 'neu', 'pos']].sum(axis=1)
-        df['neg_pct'] = df['neg'] / df['ttl_sentiment']
-        df['neu_pct'] = df['neu'] / df['ttl_sentiment']
-        df['pos_pct'] = df['pos'] / df['ttl_sentiment']
+        df['ttl_sentiment'] = df[['polarity_neg', 'polarity_neu', 'polarity_pos']].sum(axis=1)
+        df['polarity_neg_pct'] = df['polarity_neg'] / df['ttl_sentiment']
+        df['polarity_neu_pct'] = df['polarity_neu'] / df['ttl_sentiment']
+        df['polarity_pos_pct'] = df['polarity_pos'] / df['ttl_sentiment']
         return df[l_feat_pctSentiment]
     l_feat_cyclical = ['month_sin', 'month_cos', 'woy_sin', 'woy_cos']
     def cyclical_feat(df):
