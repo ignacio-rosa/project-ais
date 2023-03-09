@@ -86,8 +86,3 @@ def feature_eng(dataframe):
     df_features = add_rsi(df_features)
     df_features = add_mcda(df_features)
     return df_features
-    
-df = get_data()
-print(df)
-df = feature_eng(df)
-print(df)
