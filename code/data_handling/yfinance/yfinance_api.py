@@ -9,12 +9,14 @@ from datetime import datetime as dt
 def get_data():
     # in process ....
     ticker_list = si.tickers_sp500()
-    sp500 = pd.DataFrame()
+    # sp500 = pd.DataFrame()
+    sp500 = []
     for ticker in ticker_list:
         sp = yf.download(ticker, interval='1wk',start="2013-01-01")
         sp['ticker'] = ticker
         sp['index'] = sp.index
-        sp500 = pd.concat([sp500,sp])
+        # sp500 = pd.concat([sp500,sp])
+        sp500.append(sp)
     return sp500
 
 def update_data():
@@ -44,6 +46,11 @@ def add_dates(dataframe):
     df['week_month'] = df['date'].apply(week_of_month)
     df['week_month'] =df['week_month'] -1
     return df
+
+def add_target(dataframe):
+    df =dataframe.copy()
+    df['target_reg'] = df['Adj Close'].shift(-1)
+    df['target_cla'] = np.where(df['Adj Close'] >= df['target_reg'], 1, 0)
 
 def add_obv(df):
     copy = df.copy()
@@ -78,11 +85,17 @@ def add_mcda(df):
     
     return copy
 
-def feature_eng(dataframe):
-    df_features = dataframe.copy()
-    df_features = add_dates(df_features)
-    df_features = add_obv(df_features)
-    df_features = add_ema(df_features)
-    df_features = add_rsi(df_features)
-    df_features = add_mcda(df_features)
-    return df_features
+def feature_eng(list_df):
+    for df_features in list_df:
+        df_features = add_dates(df_features)
+        df_features = add_obv(df_features)
+        df_features = add_ema(df_features)
+        df_features = add_rsi(df_features)
+        df_features = add_mcda(df_features)
+    return list_df
+
+df_list = get_data()
+df_list = feature_eng(df_list)
+dfs = [df.set_index('id') for df in df_list]
+dfs = pd.concat(dfs, axis=1)
+dfs.to_csv('sp500_features.csv')
