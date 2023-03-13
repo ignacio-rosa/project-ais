@@ -1,6 +1,7 @@
 .env
 raw_data/
-model_data/
+model_data/model_saves/
+model_data/sentimental_finance_features.csv
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
