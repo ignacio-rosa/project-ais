@@ -1,5 +1,6 @@
 import os
 import pandas as pd
+import ast
 
 try:
     pwd = os.path.abspath(__file__)
@@ -15,6 +16,7 @@ d_risk_type = {'moderate': 0.8, 'high': 1.2}
 
 def get_recommendation(year, week, investment, risk=None, industries=None):
     try:
+        industries = ast.literal_eval(industries)
         df_test = pd.read_csv(f'{path_preds}/predictions.csv')
         df_tickerDetails = pd.read_csv(f'{path_param}/ticker_details.csv')
         df_test = pd.merge(df_test, df_tickerDetails, how='left',
