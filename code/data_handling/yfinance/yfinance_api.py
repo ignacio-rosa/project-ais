@@ -6,18 +6,21 @@ import numpy as np
 from math import ceil
 from datetime import datetime as dt
 
-def get_data():
+def get_data_finance():
     # in process ....
     ticker_list = si.tickers_sp500()
     sp500 = pd.DataFrame()
     for ticker in ticker_list:
-        sp = yf.download(ticker, interval='1wk',start="2013-01-01")
+        sp = yf.download(ticker, interval='1d',start="2013-01-01")
         sp['ticker'] = ticker
+        sp['Date'] = sp.index
         sp['index'] = sp.index
+        sp['day-of-week'] = sp['Date'].dt.day_name()
+        sp = sp[sp['day-of-week'] == 'Friday'] 
         sp500 = pd.concat([sp500,sp])
     return sp500
 
-def update_data():
+def update_data_finance():
     ticker_list = si.tickers_sp500()
     sp500 = pd.DataFrame()
     for ticker in ticker_list:
