@@ -39,7 +39,7 @@ def get_recommendation(year, week, investment, risk=None, industries=None):
             v_ttl_earn = df_end['earnings'].sum()
             v_ttl_earn_pct = round(v_ttl_earn / investment * 100, 2)
             j_res = {'type': 'strategy',
-                    'data': df_end,
+                    'data': df_end.to_json(),
                     'total_earnings': int(v_ttl_earn),
                     'roi': v_ttl_earn_pct}
     except Exception as e:
