@@ -3,7 +3,7 @@ import pandas as pd
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from code.brain import get_recommendation
+from code.brain import get_recommendation, get_historic_sample
 
 app = FastAPI()
 
@@ -19,4 +19,10 @@ app.add_middleware(
 def predict(year,week,investment,risk,industries):
 
     response = get_recommendation(year,week,investment,risk,industries)
+    return response
+
+@app.get('/historic')
+def historic(year,week,investment,risk,industries):
+
+    response = get_historic_sample(year,week,investment,risk,industries)
     return response
