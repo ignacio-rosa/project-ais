@@ -16,7 +16,7 @@ app.add_middleware(
 )
 
 @app.get('/predict')
-def predict(year,week,investment,risk,industries):
+def predict(year,week,investment,risk=None,industries=None):
 
     response = get_recommendation(year,week,investment,risk,industries)
     return response
